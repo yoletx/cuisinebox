@@ -1,9 +1,12 @@
 <?php
+	require_once("classes/database.php");
 	require_once("classes/accueil.php");
 	require_once("classes/ingredient.php");
 	require_once("classes/frigo.php");
 	require_once("classes/recette.php");
 	require_once("classes/recette_new.php");
+
+	Database::connect();
 ?>
 <html>
 <head>
@@ -48,3 +51,7 @@
 	</div>
 </body>
 </html>
+
+<?php
+	Database::disconnect();
+?>
