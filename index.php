@@ -1,5 +1,5 @@
 <?php
-	//require_once("classes/ingredient.php");
+	require_once("classes/ingredient.php");
 	require_once("classes/frigo.php");
 	//require_once("classes/recette.php");
 ?>
@@ -9,7 +9,11 @@
 </head>
 <body>
 	<table>
-		<tr><td onclick="goto('ingredient');">Ingredients</td><td onclick="goto('frigo');">Frigo</td><td onclick="goto('recette');">Recette</td></tr>
+		<tr>
+			<td onclick="goto('ingredient');">Ingredients</td>
+			<td onclick="goto('frigo');"     >Frigo</td>
+			<td onclick="goto('recette');"   >Recette</td>
+		</tr>
 		<tr><td colspan="3">
 			<?php
 				if(!isset($_GET["page"])){
@@ -18,10 +22,9 @@
 					$page = $_GET["page"];
 				}
 				switch($page){
-					/*
 					case "ingredient":
 						$fenetre = new Ingredient();
-					break;*/
+					break;
 					case "frigo":
 						$fenetre = new Frigo();
 					break;
