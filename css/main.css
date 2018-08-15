@@ -41,3 +41,9 @@
 	grid-column-start: 1;
 	grid-column-end: 5;
 }
+
+
+/* pour le tableaun ingredient*/
+.titre{
+	font-weight:bold;
+}
