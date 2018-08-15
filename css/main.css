@@ -1,0 +1,43 @@
+.main_grid {
+	display: grid;
+	text-align:center;
+}
+.accueil, .ingredient, .frigo, .recette {
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.accueil {
+	grid-column-start: 1;
+	grid-column-end: 2;
+	background-color:#FAA;
+}
+.ingredient {
+	grid-column-start: 2;
+	grid-column-end: 3;
+	background-color:#AFA;
+}
+.frigo {
+	grid-column-start: 3;
+	grid-column-end: 4;
+	background-color:#AAF;
+}
+.recette {
+	grid-column-start: 4;
+	grid-column-end: 5;
+	background-color:#FAF;
+}
+
+.content {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding-top:20px;
+	padding-bottom:20px;
+	grid-column-start: 1;
+	grid-column-end: 5;
+}
+
+.footer {
+	grid-column-start: 1;
+	grid-column-end: 5;
+}

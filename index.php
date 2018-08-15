@@ -1,20 +1,22 @@
 <?php
+	require_once("classes/accueil.php");
 	require_once("classes/ingredient.php");
 	require_once("classes/frigo.php");
-	//require_once("classes/recette.php");
+	require_once("classes/recette.php");
+	require_once("classes/recette_new.php");
 ?>
 <html>
 <head>
 	<script src="javascript/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-	<table>
-		<tr>
-			<td onclick="goto('ingredient');">Ingredients</td>
-			<td onclick="goto('frigo');"     >Frigo</td>
-			<td onclick="goto('recette');"   >Recette</td>
-		</tr>
-		<tr><td colspan="3">
+	<div class="main_grid">
+		<div class="accueil"    onclick="goto('accueil');"    >Accueil</div>
+		<div class="ingredient" onclick="goto('ingredient');" >Ingrédient</div>
+		<div class="frigo"      onclick="goto('frigo');"      >Frigo</div>
+		<div class="recette"    onclick="goto('recette');"    >Recette</div>
+		<div class="content">
 			<?php
 				if(!isset($_GET["page"])){
 					$page = "";
@@ -28,7 +30,7 @@
 					case "frigo":
 						$fenetre = new Frigo();
 					break;
-					/*case "recette":
+					case "recette":
 						$fenetre = new Recette();
 					break;
 					case "recette_new":
@@ -36,11 +38,13 @@
 					break;
 					default:
 						$fenetre = new Accueil();
-					break;*/
+					break;
 				}
-				@$fenetre->afficher();
+				$fenetre->afficher();
 			?>
-		</td></tr>
-	</table>
+
+		</div>
+		<div class="footer">Créé par Adelita et Yoyo</div>
+	</div>
 </body>
 </html>
