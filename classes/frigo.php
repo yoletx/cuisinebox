@@ -7,6 +7,10 @@ class frigo extends Fenetre {
 		$this->content = "Coucou je suis le frigo !!";
 	}
 
+	private function genererTableau(){
+
+	}
+
 }
 
 ?>
