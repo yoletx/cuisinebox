@@ -1,3 +1,8 @@
+body {
+	width:800px;
+	margin:auto;
+}
+
 .main_grid {
 	display: grid;
 	text-align:center;
@@ -29,8 +34,7 @@
 }
 
 .content {
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
+	border:1px solid black;
 	padding-top:20px;
 	padding-bottom:20px;
 	grid-column-start: 1;
@@ -64,4 +68,15 @@ td, th{
 
 .sous_conteneur {
   margin:auto;
+}
+
+.icon {
+	width:20px;
+	height:20px;
+}
+
+.icon:hover	{
+	background-color:#AAD;
+	border-radius:5px;
+	cursor:pointer;
 }
