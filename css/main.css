@@ -41,3 +41,27 @@
 	grid-column-start: 1;
 	grid-column-end: 5;
 }
+
+
+/* pour la fênetre ingredient*/
+.titre{
+	font-weight:bold;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+td, th{
+  border: 1px solid black;
+}
+
+.conteneur {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 10px;
+}
+
+.sous_conteneur {
+  margin:auto;
+}
