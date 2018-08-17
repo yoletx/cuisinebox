@@ -1,6 +1,6 @@
 <?php
 class Database {
-	private static $mysqli = null;
+	public static $mysqli = null;
 
 	static function connect(){
 		self::$mysqli = new mysqli("192.168.1.14", "admin", "admin", "cuisinebox");
