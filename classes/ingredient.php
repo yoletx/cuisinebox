@@ -5,9 +5,23 @@ class Ingredient extends Fenetre
 {
 
   public function __construct(){
+    $this->insert_data();
     $this->content = $this->generateContenu();
 
 
+  }
+
+
+  public function insert_data(){
+    if(isset($_POST['nom']) && isset($_POST['mesure'])){
+      $mysqli_insert = Database::$mysqli->prepare("INSERT INTO ingredient(nom, mesure) VALUES (?,?)");
+      $mysqli_insert->bind_param("ss",$_POST['nom'], $_POST['mesure']);
+      $mysqli_insert->execute();
+    }
+  }
+
+  public function delete_data($nom, $mesure){
+    $mysqli_delete = Database::$mysqli->prepare("DELETE FROM ingredient(nom, mesure) VALUES ('?','?')");
   }
 
   public function generateFormulaire(){
@@ -25,22 +39,30 @@ class Ingredient extends Fenetre
   }
 
   public function generateTableau(){
-    return '
-      <table><caption>Ingredients :</caption>
-        <tbody>
+      $mysqli_selectAll = Database::$mysqli->prepare("SELECT nom, mesure from ingredient order by nom");
+      $mysqli_selectAll->execute();
+      $out_nom    = NULL;
+      $out_mesure = NULL;
+      $mysqli_selectAll->bind_result($out_nom, $out_mesure);
+      $html = '<table><caption>Ingredients :</caption>
+        <thead>
           <tr>
             <th>NOM</th><th>TYPE</th>
           </tr>
-          <tr>
-            <td>riz</td>
-            <td>en poids</td>
-          </tr>
-          <tr>
-            <td>pates</td>
-            <td>en poids</td>
-          </tr>
-        </tbody>
+        </thead>
+        <tbody>';
+      while ($mysqli_selectAll->fetch()) {
+        $html = $html.
+        '<tr>
+          <td>'.$out_nom.'</td>
+          <td>'.$out_mesure.'</td>
+        </tr>';
+      }
+
+      $html = $html.'</tbody>
       </table>';
+
+    return $html;
   }
 
   public function generateContenu(){
@@ -52,3 +74,7 @@ class Ingredient extends Fenetre
   }
 }
 ?>
+
+
+
+
