@@ -31,29 +31,31 @@
 			$fenetre = new Accueil();
 		break;
 	}
-?>
 
+	if(!isset($_GET["ajax_action"])){
+		echo '
+		<html>
+			<head>
+				<script src="javascript/main.js"></script>
+				<link rel="stylesheet" type="text/css" href="css/main.css">';
+				$fenetre->afficher_header();
+		echo '
+			</head>
+			<body>
+				<div class="main_grid">
+					<div class="accueil"    onclick="goto(\'accueil\');"    >Accueil</div>
+					<div class="ingredient" onclick="goto(\'ingredient\');" >Ingrédient</div>
+					<div class="frigo"      onclick="goto(\'frigo\');"      >Frigo</div>
+					<div class="recette"    onclick="goto(\'recette\');"    >Recette</div>
+					<div class="content">';
+						$fenetre->afficher();
+		echo '</div>
+					<div class="footer">Créé par Adelita et Yoyo</div>
+				</div>
+			</body>
+		</html>
+		';
+	};
 
-<html>
-<head>
-	<script src="javascript/main.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<?php $fenetre->afficher_header(); ?>
-</head>
-<body>
-	<div class="main_grid">
-		<div class="accueil"    onclick="goto('accueil');"    >Accueil</div>
-		<div class="ingredient" onclick="goto('ingredient');" >Ingrédient</div>
-		<div class="frigo"      onclick="goto('frigo');"      >Frigo</div>
-		<div class="recette"    onclick="goto('recette');"    >Recette</div>
-		<div class="content">
-			<?php $fenetre->afficher(); ?>
-		</div>
-		<div class="footer">Créé par Adelita et Yoyo</div>
-	</div>
-</body>
-</html>
-
-<?php
 	Database::disconnect();
 ?>
