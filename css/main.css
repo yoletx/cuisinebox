@@ -61,10 +61,13 @@ td, th{
 }
 
 tr.couleur_ligne td{
-	background-color: #ffffaa;
+	background-color: #ffffaa;  /* yellow */
+}
+tr.couleur_ligne:hover td{
+	background-color: #c3c376;  /* yellow dark */
 }
 tr:hover td{
-	background-color: grey;
+	background-color: #dad8d8;  /*light grey */
 	transition: background-color 0.2s;
 }
 .conteneur {
