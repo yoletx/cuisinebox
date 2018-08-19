@@ -26,7 +26,16 @@ class RecetteNew extends Fenetre
 		$stm->close();
 		if($cnt == 0){ //Si pas de recette avec ce nom, on va la créer
 			$stm = Database::$mysqli->prepare("INSERT INTO recette (nom, descriptif, dejeuner, diner) VALUES (?,?,?,?)");
-			$stm->bind_param("ssii",$_POST["nom"], $_POST["descriptif"], $_POST["dejeuner"],$_POST["diner"]);
+			$dejeuner = 0;
+			if(isset($_POST["dejeuner"])){
+				$dejeuner = 1;
+			}
+			$diner = 0;
+			if(isset($_POST["diner"])){
+				$diner = 1;
+			}
+
+			$stm->bind_param("ssii",$_POST["nom"], $_POST["descriptif"], $dejeuner,$diner);
 			$stm->execute();
 			$id = $stm->insert_id;
 			$stm->close();
@@ -128,20 +137,33 @@ class RecetteNew extends Fenetre
 	function generate_form(){
 		$nom = '';
 		$descriptif = '';
+		$dejeuner = '';
+		$diner = '';
 		if(isset($_GET["id_recette"])){
-			$stm = Database::$mysqli->prepare("SELECT nom, descriptif FROM recette WHERE id=?");
+			$stm = Database::$mysqli->prepare("SELECT nom, descriptif, dejeuner, diner FROM recette WHERE id=?");
 			$stm->bind_param('i', $_GET["id_recette"]);
 			$stm->execute();
-			$stm->bind_result($nom, $descriptif);
+			$stm->bind_result($nom, $descriptif,$dejeuner, $diner);
 			$stm->fetch();
 			$stm->close();
 		}
+
+		$dejeunerCheck = "";
+		$dinerCheck = "";
+		if($dejeuner==1){
+			$dejeunerCheck = "checked=\"checked\"";
+		}
+		if($diner==1){
+			$dinerCheck = "checked=\"checked\"";
+		}
+
+
 		return '
 			<form method="post">
 				<label for="nom">Recette : </label><input type="text" id="nom" name="nom" placeholder="Nom recette" value="'.$nom.'"/><br/>
 				<textarea name="descriptif" placeholder="Descriptif" style="width:500px;height:100px">'.$descriptif.'</textarea><br/>
-				<label for="dejeuner">Disponible pour déjeuner</label><input type="checkbox" id="dejeuner" name="dejeuner" checked="checked"><br/>
-				<label for="diner">Disponible pour diner</label><input type="checkbox" id="diner" name="diner" checked="checked">
+				<label for="dejeuner">Disponible pour déjeuner</label><input type="checkbox" id="dejeuner" name="dejeuner" '.$dejeunerCheck.'><br/>
+				<label for="diner">Disponible pour diner</label><input type="checkbox" id="diner" name="diner" '.$dinerCheck.'>
 				<input type="submit" value="Valider">
 			</form>';
 	}
