@@ -8,7 +8,6 @@
 	require_once("classes/recette_new.php");
 
 	Database::connect();
-
 	if(!isset($_GET["page"])){
 		$page = "";
 	} else {
@@ -43,10 +42,10 @@
 			</head>
 			<body>
 				<div class="main_grid">
-					<div class="accueil"    onclick="goto(\'accueil\');"    >Accueil</div>
-					<div class="ingredient" onclick="goto(\'ingredient\');" >Ingrédient</div>
-					<div class="frigo"      onclick="goto(\'frigo\');"      >Frigo</div>
-					<div class="recette"    onclick="goto(\'recette\');"    >Recette</div>
+					<div class="accueil"    onclick="goto(\'accueil\', event);"    >Accueil</div>
+					<div class="ingredient" onclick="goto(\'ingredient\', event);" >Ingrédient</div>
+					<div class="frigo"      onclick="goto(\'frigo\', event);"      >Frigo</div>
+					<div class="recette"    onclick="goto(\'recette\', event);"    >Recette <img class="icon" src="images/add.png" onclick="goto(\'recette_new\', event); return false;"/></div>
 					<div class="content">';
 						$fenetre->afficher();
 		echo '</div>
