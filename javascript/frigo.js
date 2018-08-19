@@ -1,4 +1,17 @@
-function ajouter(id, mesure){
+function ajouter(id, mesure, nom){
+	var quantite;
+	switch(mesure){
+		case 'U':
+			quantite = prompt('Combien voulez-vous ajouter de ' + nom + ' ? ');
+			break;
+		case 'P':
+			quantite = prompt('Combien voulez-vous ajouter de kilos de '+ nom + ' ?');
+			break;
+		case 'L':
+			quantite = prompt('Combien voulez-vous ajouter de litres de ' + nom + ' ?');
+			break;
+	}
+
 	var xhr = new XMLHttpRequest();
 
 	xhr.onreadystatechange = function() {
@@ -14,9 +27,10 @@ function ajouter(id, mesure){
 	  }
 	}
 
-	xhr.open("POST", 'classes/frigo.php&ajax_action=ajouter', true);
+	xhr.open("POST", document.location.href + '&ajax_action=ajouter', true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-	xhr.send("&id="+id+"&mesure="+mesure);
+	xhr.send("id="+id+"&quantite="+quantite);
 
 
 }
