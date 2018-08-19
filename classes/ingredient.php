@@ -5,13 +5,34 @@ class Ingredient extends Fenetre
 {
 
   public function __construct(){
-    $this->insert_data();
-    $this->content = $this->generateContenu();
-
-
-
+    if(isset($_GET["ajax_action"])){
+      $this->trait_ajax();
+    } else {
+      $this->trait_html();
+    }
   }
 
+  public function trait_ajax(){
+    switch ($_GET["ajax_action"]){
+      case "supprimer":
+        $this->content = $this->delete_data($_POST["id"]);
+      break;
+    }
+  }
+
+
+
+
+
+  public function trait_html(){
+    $this->insert_data();
+    $this->header  = $this->generate_header();
+    $this->content = $this->generateContenu();
+  }
+
+  private function generate_header(){
+    return '<script src="javascript/ingredient.js"></script>';
+  }
 
   public function insert_data(){
     if(isset($_POST['nom']) && isset($_POST['mesure'])){
@@ -21,10 +42,17 @@ class Ingredient extends Fenetre
     }
   }
 
-  /*public function delete_data($nom, $mesure){
-    $mysqli_select = Database::mysqli->prepare("SELECT * FROM ingredient WHERE id = ?");
+  public function delete_data($id){
     $mysqli_delete = Database::$mysqli->prepare("DELETE FROM ingredient WHERE id = ?");
-  }*/
+    $mysqli_delete->bind_param("i",$id);
+    if(!$mysqli_delete->execute()){
+      if($mysqli_delete->errno==1451){
+        echo "1451";
+      }
+    }
+
+      $mysqli_delete->close();
+  }
 
   public function generateFormulaire(){
 
@@ -42,12 +70,9 @@ class Ingredient extends Fenetre
   }
 
   public function generateTableau(){
-      $mysqli_selectAll = Database::$mysqli->prepare("SELECT nom, mesure from ingredient order by nom");
+      $mysqli_selectAll = Database::$mysqli->prepare("SELECT id, nom, mesure from ingredient order by nom");
       $mysqli_selectAll->execute();
-      $out_nom    = NULL;
-      $out_mesure = NULL;
-      $icon_sup =
-      $mysqli_selectAll->bind_result($out_nom, $out_mesure);
+      $mysqli_selectAll->bind_result($out_id, $out_nom, $out_mesure);
       $html = '<table><caption>Ingredients :</caption>
         <thead>
           <tr>
@@ -68,7 +93,7 @@ class Ingredient extends Fenetre
           '<tr class='.$col.'>
             <td style="text-align: center">'.$out_nom.'</td>
             <td style="text-align: center">'.$out_mesure.'</td>
-            <td style="text-align: center"><img class="icon" src="images/delete.png";"</td>
+            <td style="text-align: center"><img class="icon" src="images/delete.png" onclick="supprimer('.$out_id.');"</td>
           </tr>';
       }
 
@@ -87,7 +112,3 @@ class Ingredient extends Fenetre
   }
 }
 ?>
-
-
-
-
