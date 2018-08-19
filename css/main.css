@@ -60,6 +60,13 @@ td, th{
   border: 1px solid black;
 }
 
+tr.couleur_ligne td{
+	background-color: #ffffaa;
+}
+tr:hover td{
+	background-color: grey;
+	transition: background-color 0.2s;
+}
 .conteneur {
   display: grid;
   grid-template-columns: 50% 50%;
