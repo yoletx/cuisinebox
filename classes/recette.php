@@ -29,15 +29,15 @@ class Recette extends Fenetre
   }
 
   public function delete_data($id){
+    $mysqli_delete = Database::$mysqli->prepare("DELETE FROM ingredient_recette WHERE id_recette = ?");
+    $mysqli_delete->bind_param("i",$id);
+    $mysqli_delete->execute();
+    $mysqli_delete->close();
+
     $mysqli_delete = Database::$mysqli->prepare("DELETE FROM recette WHERE id = ?");
     $mysqli_delete->bind_param("i",$id);
-    if(!$mysqli_delete->execute()){
-      if($mysqli_delete->errno==1451){
-        echo "1451";
-      }
-    }
-
-      $mysqli_delete->close();
+    $mysqli_delete->execute();
+    $mysqli_delete->close();
   }
 	public function generate_descriptif(){
 		$mysqli_select_descriptif = Database::$mysqli->prepare("SELECT descriptif from recette where id = ?");

@@ -93,7 +93,22 @@ tr:hover td{
 .erreur_doublon{
 	color: red;
 }
+.recette_main {
+	display:grid;
+}
 
+.recette_form{
+	grid-column-start:1;
+	grid-column-end:3;
+}
+.recette_all_ingredients{
+	grid-column-start:1;
+	grid-column-end:2;
+}
+.recette_selected_ingredients{
+	grid-column-start:2;
+	grid-column-end:3;
+}
 .curseur:hover {
 	cursor:pointer;
 }

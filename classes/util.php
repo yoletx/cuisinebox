@@ -8,17 +8,17 @@ class Util
         return $quantite;
         break;
       case "P":
-        if($quantite>1){
+        if($quantite>=1){
           return round($quantite,3)."(kgs)";
         } else {
-          return round($quantite,3)."(gr.)";
+          return round($quantite*1000,3)."(gr.)";
         }
         break;
       case "L":
         if($quantite>1){
           return round($quantite,3)."(l)";
         } else {
-          return (round($quantite,3)*1000)."(ml)";
+          return (round($quantite*1000,3))."(ml)";
         }
         break;
     }
