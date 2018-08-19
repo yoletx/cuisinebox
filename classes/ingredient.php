@@ -9,6 +9,7 @@ class Ingredient extends Fenetre
     $this->content = $this->generateContenu();
 
 
+
   }
 
 
@@ -21,7 +22,7 @@ class Ingredient extends Fenetre
   }
 
   public function delete_data($nom, $mesure){
-    $mysqli_delete = Database::$mysqli->prepare("DELETE FROM ingredient(nom, mesure) VALUES ('?','?')");
+    $mysqli_delete = Database::$mysqli->prepare("DELETE FROM ingredient WHERE id = ?");
   }
 
   public function generateFormulaire(){
@@ -33,7 +34,8 @@ class Ingredient extends Fenetre
           <span class="titre"> Type d\'ingredient :</span> <br /> <br />
           <input type="radio" name="mesure" id="U" value="U"/><label for="U">En unit&eacute; </label> <br />
           <input type="radio" name="mesure" id="P" value="P"/><label for="P">En poids</label> <br />
-          <input type="radio" name="mesure" id="L" value="L"/><label for="L">En litres</label>
+          <input type="radio" name="mesure" id="L" value="L"/><label for="L">En litres</label> <br />
+          <input type="submit" name="valider">
         </p>
       </form>';
   }
@@ -51,12 +53,20 @@ class Ingredient extends Fenetre
           </tr>
         </thead>
         <tbody>';
+      $compteur=0;
+      $col = "couleur_ligne";
       while ($mysqli_selectAll->fetch()) {
+        $compteur++;
+        if(($compteur % 2) == 1){ //Si impaire
+          $col = 'couleur_ligne';
+        } else {
+          $col = '';
+        }
         $html = $html.
-        '<tr>
-          <td>'.$out_nom.'</td>
-          <td>'.$out_mesure.'</td>
-        </tr>';
+          '<tr class='.$col.'>
+            <td>'.$out_nom.'</td>
+            <td>'.$out_mesure.'</td>
+          </tr>';
       }
 
       $html = $html.'</tbody>
