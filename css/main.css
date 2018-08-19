@@ -93,3 +93,7 @@ tr:hover td{
 .erreur_doublon{
 	color: red;
 }
+
+.curseur:hover {
+	cursor:pointer;
+}

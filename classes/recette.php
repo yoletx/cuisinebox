@@ -39,8 +39,19 @@ class Recette extends Fenetre
 
       $mysqli_delete->close();
   }
+	public function generate_descriptif(){
+		$mysqli_select_descriptif = Database::$mysqli->prepare("SELECT descriptif from recette where id = ?");
+    $mysqli_select_descriptif->bind_param("i",$_GET['id_recette']);
+    $mysqli_select_descriptif->execute();
+    $mysqli_select_descriptif->bind_result($descriptif);
+    $mysqli_select_descriptif->fetch();
+    $mysqli_select_descriptif->close();
+    $html = '<div><span>DESCRIPTIF :</span><p>'.$descriptif.'</p></div>';
+    return $html;
 
-  public function generate_contenu(){
+	}
+
+  public function generate_tableau(){
       $mysqli_selectAll = Database::$mysqli->prepare("SELECT id, nom, descriptif from recette order by nom");
       $mysqli_selectAll->execute();
       $mysqli_selectAll->bind_result($id, $nom, $descriptif);
@@ -63,7 +74,7 @@ class Recette extends Fenetre
         $html = $html.
           '<tr class='.$col.'>
             <td style="text-align: center">'.$nom.'</td>
-            <td style="text-align: center">'.$descriptif.'</td>
+            <td class="curseur" style="text-align: center" onclick="document.location.href = \'index.php?page=recette&id_recette='.$id.'\';">'.substr($descriptif,0,40).'...</td>
             <td style="text-align: center"><img class="icon" src="images/delete.png" onclick="supprimer('.$id.');"</td>
             <td style="text-align:center"><img class="icon" src="images/edit.png" onclick="document.location.href = \'index.php?page=recette_new&id_recette='.$id.'\';"></td>
           </tr>';
@@ -75,5 +86,12 @@ class Recette extends Fenetre
     return $html;
   }
 
+  public function generate_contenu(){
+    return '
+      <div class="conteneur">
+        <div class="sous_conteneur">'.$this->generate_tableau().'</div>
+        <div class="sous_conteneur">'.$this->generate_descriptif().'</div>
+      </div>';
+  }
 }
 ?>
