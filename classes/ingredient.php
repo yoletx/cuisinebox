@@ -35,11 +35,17 @@ class Ingredient extends Fenetre
   }
 
   public function insert_data(){
-    if(isset($_POST['nom']) && isset($_POST['mesure'])){
-      $mysqli_insert = Database::$mysqli->prepare("INSERT INTO ingredient(nom, mesure) VALUES (?,?)");
-      $mysqli_insert->bind_param("ss",$_POST['nom'], $_POST['mesure']);
-      $mysqli_insert->execute();
+    if(!empty($_POST['nom'])){
+      if(isset($_POST['nom']) && isset($_POST['mesure'])){
+        $mysqli_insert = Database::$mysqli->prepare("INSERT INTO ingredient(nom, mesure) VALUES (?,?)");
+        $mysqli_insert->bind_param("ss",$_POST['nom'], $_POST['mesure']);
+        $mysqli_insert->execute();
+      }
     }
+    else{
+      echo 'impossible d inserer cet ingredient car doublon';
+    }
+
   }
 
   public function delete_data($id){
