@@ -16,10 +16,12 @@ class frigo extends Fenetre {
   //-----------AJAX----------
   //-------------------------
   private function trait_ajax(){
-    $id = $_POST["id"];
-    $quantite = $_POST["quantite"];
+
     switch($_GET["ajax_action"]){
       case "ajouter":
+        $id = $_POST["id"];
+        $quantite = $_POST["quantite"];
+
         $stm = Database::$mysqli->prepare("SELECT count(*) FROM frigo WHERE id_ingredient = ?");
         $stm->bind_param("i",$id);
         $stm->execute();
@@ -48,12 +50,17 @@ class frigo extends Fenetre {
         }
         break;
       case "supprimer":
+        $id = $_POST["id"];
+
         $stm = Database::$mysqli->prepare("DELETE FROM frigo WHERE id_ingredient = ?");
         $stm->bind_param("i",$id);
         $stm->execute();
         $stm->close();
         break;
       case "modifier":
+        $id = $_POST["id"];
+        $quantite = $_POST["quantite"];
+
         $stm = Database::$mysqli->prepare("UPDATE frigo SET quantite = ? WHERE id_ingredient = ?");
         $stm->bind_param("di",$quantite,$id);
         $stm->execute();
@@ -113,14 +120,15 @@ class frigo extends Fenetre {
     $html = "";
     $html.= "<table>";
     $html.= " <thead>";
-    $html.= "   <tr><th></th><th>Nom</th><th>Reste</th></tr>";
+    $html.= "   <tr><th></th><th>Nom</th><th>Reste</th><th></th></tr>";
     $html.= " </thead>";
     $html.= " <tbody>";
     while($row = $res->fetch_assoc()){
       $html.= " <tr>";
-      $html.= "   <td style=\"text-align:center\"><img class=\"icon\" src=\"images/delete.png\" onclick=\"supprimer(".$row["id"].",".$row["quantite"].",".$row["mesure"].");\"/></td>";
+      $html.= "   <td style=\"text-align:center\"><img class=\"icon\" src=\"images/delete.png\" onclick=\"supprimer(".$row["id"].");\"/></td>";
       $html.= "   <td>".$row["nom"]."</td>";
       $html.= "   <td>".Util::formater_quantite($row["quantite"],$row["mesure"])."</td>";
+      $html.= "   <td style=\"text-align:center\"><img class=\"icon\" src=\"images/edit.png\" onclick=\"edit(".$row["id"].",'".$row["mesure"]."','".$row["nom"]."');\"/></td>";
       $html.= " </tr>";
     }
     $html.= " </tbody>";
