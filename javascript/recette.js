@@ -1,10 +1,15 @@
-var xhr = new XMLHttpRequest();
+function supprimer(id){
+
+	var xhr = new XMLHttpRequest();
 
 	xhr.onreadystatechange = function() {
 	  if (xhr.readyState == XMLHttpRequest.DONE ) {
 	    if(xhr.status == 200){
-	      console.log(xhr.responseText);
-	      document.location.href = document.location.href;
+	    	if(xhr.responseText == 1451){
+	    		alert("Impossible de supprimer cette recette car elle est existe déjà");
+	    	} else {
+	    		document.location.href = document.location.href;
+	    	}
 	    } else if(xhr.status == 400) {
 	      console.log('There was an error 400');
 	    } else {
@@ -13,7 +18,10 @@ var xhr = new XMLHttpRequest();
 	  }
 	}
 
-	xhr.open("POST", document.location.href, true);
+	xhr.open("POST", document.location.href + '&ajax_action=supprimer', true); //Ici on passe l'url avec les paramètres GET
 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-	xhr.send("nom="+nom+"&descriptif="+descriptif);
+	xhr.send("id="+id); //Ici on passe les paramètres POST
+
+
+}

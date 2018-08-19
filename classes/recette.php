@@ -43,11 +43,11 @@ class Recette extends Fenetre
   public function generate_contenu(){
       $mysqli_selectAll = Database::$mysqli->prepare("SELECT id, nom, descriptif from recette order by nom");
       $mysqli_selectAll->execute();
-      $mysqli_selectAll->bind_result($nom, $descriptif, $id);
+      $mysqli_selectAll->bind_result($id, $nom, $descriptif);
       $html = '<table style="margin: auto;"><caption>LISTE DE RECETTES:</caption>
         <thead>
           <tr>
-            <th>NOM</th><th>DESCRIPTIF</th><th>supprimer</th>
+            <th>NOM</th><th>DESCRIPTIF</th><th>supprimer</th><th>editer</th>
           </tr>
         </thead>
         <tbody>';
@@ -65,6 +65,7 @@ class Recette extends Fenetre
             <td style="text-align: center">'.$nom.'</td>
             <td style="text-align: center">'.$descriptif.'</td>
             <td style="text-align: center"><img class="icon" src="images/delete.png" onclick="supprimer('.$id.');"</td>
+            <td style="text-align:center"><img class="icon" src="images/edit.png" onclick="document.location.href = \'index.php?page=recette_new&id_recette='.$id.'\';"></td>
           </tr>';
       }
 
