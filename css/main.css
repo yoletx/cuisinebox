@@ -87,3 +87,6 @@ tr:hover td{
 	border-radius:5px;
 	cursor:pointer;
 }
+.erreur_doublon{
+	color: red;
+}

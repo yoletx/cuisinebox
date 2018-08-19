@@ -4,6 +4,8 @@ require_once("classes/fenetre.php");
 class Ingredient extends Fenetre
 {
 
+  private $erreur = '';
+
   public function __construct(){
     if(isset($_GET["ajax_action"])){
       $this->trait_ajax();
@@ -35,16 +37,22 @@ class Ingredient extends Fenetre
   }
 
   public function insert_data(){
-    if(!empty($_POST['nom'])){
-      if(isset($_POST['nom']) && isset($_POST['mesure'])){
-        $mysqli_insert = Database::$mysqli->prepare("INSERT INTO ingredient(nom, mesure) VALUES (?,?)");
-        $mysqli_insert->bind_param("ss",$_POST['nom'], $_POST['mesure']);
-        $mysqli_insert->execute();
+      if(isset($_POST['nom']) && isset($_POST['mesure'])){  //est ce que nom et mesure existent?, ils sont été renseignées dans le form?
+        $mysqli_select = Database::$mysqli->prepare("SELECT COUNT(*) FROM ingredient WHERE nom = ?");  //le moule est prêt
+        $mysqli_select->bind_param("s",$_POST['nom']);  //on rempli le moule avec la variable -> nom rensiegné
+        $mysqli_select->execute();                      //on mets le moule dans le four
+        $mysqli_select->bind_result($nb_nom);           //on lie/associe
+        $mysqli_select->fetch();                        //le curseur se place sur le premiere enregistrement
+        $mysqli_select->close();
+        if($nb_nom==1){
+          $this->erreur = "impossible d'ajouter l'ingredient '".$_POST['nom']."' car il existe déjà";
+        } else {
+          $mysqli_insert = Database::$mysqli->prepare("INSERT INTO ingredient(nom, mesure) VALUES (?,?)");
+          $mysqli_insert->bind_param("ss",$_POST['nom'], $_POST['mesure']);
+          $mysqli_insert->execute();
+        }
+
       }
-    }
-    else{
-      echo 'impossible d inserer cet ingredient car doublon';
-    }
 
   }
 
@@ -70,7 +78,8 @@ class Ingredient extends Fenetre
           <input type="radio" name="mesure" id="U" value="U"/><label for="U">En unit&eacute; </label> <br/>
           <input type="radio" name="mesure" id="P" value="P"/><label for="P">En poids</label> <br/>
           <input type="radio" name="mesure" id="L" value="L"/><label for="L">En litres</label> <br/><br/>
-          <input type="submit" name="valider">
+          <input type="submit" name="valider"> </br></br>
+          <span class="erreur_doublon titre">'.$this->erreur.'</span>
         </p>
       </form>';
   }
